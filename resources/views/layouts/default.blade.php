@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>@yield('title','weibo app') - 初音未来の新手教程</title>
-    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 </head>
 <body>
 
