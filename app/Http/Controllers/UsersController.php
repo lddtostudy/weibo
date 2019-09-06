@@ -31,7 +31,7 @@ class UsersController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-
+        Auth::login($user);//注册之后进行登录
         session()->flash('success','欢迎您的注册哦，这是次元的大门~');
         return redirect()->route('users.show',[$user]);
     }
