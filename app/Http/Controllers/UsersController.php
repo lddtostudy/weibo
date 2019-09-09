@@ -12,13 +12,19 @@ class UsersController extends Controller
     {
         //只允许已登录的用户访问edit、update方法；except是除..之外（黑名单过滤）；还有一个方法是only（白名单过滤）
         $this->middleware('auth',[
-            'except' => ['show','create','store']
+            'except' => ['show','create','store','index']
         ]);
 
         //只允许未登录的用户访问注册界面（与SessionsSontroller结合后：登录的用户不可以访问注册和登录）
         $this->middleware('guest', [
             'only' => ['create']
         ]);
+    }
+
+    public function index()
+    {
+        $users = User::paginate(10);
+        return view('users.index',compact('users'));
     }
 
     public function create()
