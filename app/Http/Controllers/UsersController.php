@@ -7,6 +7,20 @@ use App\Models\User;
 
 class UsersController extends Controller
 {
+
+    public function __construct()
+    {
+        //只允许已登录的用户访问edit、update方法；except是除..之外（黑名单过滤）；还有一个方法是only（白名单过滤）
+        $this->middleware('auth',[
+            'except' => ['show','create','store']
+        ]);
+
+        //只允许未登录的用户访问注册界面（与SessionsSontroller结合后：登录的用户不可以访问注册和登录）
+        $this->middleware('guest', [
+            'only' => ['create']
+        ]);
+    }
+
     public function create()
     {
         return view('users.create');
@@ -38,11 +52,13 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
+        $this->authorize('update',$user);
         return view('users.edit',compact('user'));
     }
 
     public function update(User $user, Request $request)
     {
+        $this->authorize('update', $user);
         $this->validate($request, [
             'name' => 'required|max:50',
             'password' => 'nullable|confirmed|min:6'
